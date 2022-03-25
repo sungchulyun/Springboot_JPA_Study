@@ -3,10 +3,16 @@ package org.zerok;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.zerok.domain.Board;
 import org.zerok.persistence.BoardRepository;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 @SpringBootTest
 class Boot01ApplicationTests {
@@ -14,7 +20,7 @@ class Boot01ApplicationTests {
 	@Autowired
 	private BoardRepository boardRepository;
 
-	@Test
+	/*@Test
 	void testInsert200() {
 		for(int i = 0; i <=200; i++){
 
@@ -25,7 +31,7 @@ class Boot01ApplicationTests {
 			boardRepository.save(board);
 		}
 	}
-
+*/
 	@Test
 	public void testByTitle() {
 
@@ -52,24 +58,40 @@ class Boot01ApplicationTests {
 	}
 
 	@Test
-	public void testByTitleContainingOrContent(){
+	public void testBnoOrderByPaging(){
 
-		Collection<Board> results = boardRepository.findByTitleContainingOrContentContaining("5", "5");
+		Pageable paging = PageRequest.of(0,10, Sort.Direction.ASC, "bno");
 
-		results.forEach(board -> System.out.println(board));
+		Page<Board> results = boardRepository.findByBnoGreaterThanOrderByBnoDesc(0L, paging);
+
+		System.out.println("PAGE SIZE : " + results.getSize());
+		System.out.println("TOTAL SIZE : " + results.getTotalPages());
+		System.out.println("PAGE SIZE : " + results.getTotalElements());
+		System.out.println("PAGE SIZE : " + results.nextPageable());
+
+		List<Board> list = results.getContent();
+
+		list.forEach(board -> System.out.println(board));
 	}
 
 	@Test
-	public void testByTitleAndBnoGreaterThan(){
+	public void testByTitle2(){
 
-		Collection<Board> results = boardRepository.findByTitleContainingAndBnoGreaterThan("5", 100L);
-		results.forEach(board -> System.out.println(board));
+		boardRepository.findByTitle("17")
+		.forEach(arr -> System.out.println(Arrays.toString(arr)));
 	}
 
 	@Test
-	public void testByBnoGreaterThanOrderByBnoDesc(){
+	public void testByTitle3(){
 
-		Collection<Board> results = boardRepository.findByBnoGreaterThanOrderByBnoDesc(100L);
-		results.forEach(board -> System.out.println(board));
+		boardRepository.findByContent("17")
+				.forEach(board -> System.out.println(board));
+	}
+
+
+	@Test
+	public void TestByWriter(){
+
+		boardRepository.findByWriter2("user01").forEach(board -> System.out.println(board));
 	}
 }
