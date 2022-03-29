@@ -23,6 +23,7 @@ public class PDSBoard {
 
     private String pwriter;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "pdsno")
     private List<PDSFile> files;
 }
