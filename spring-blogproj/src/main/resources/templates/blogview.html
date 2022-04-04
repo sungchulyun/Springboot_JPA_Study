@@ -8,6 +8,7 @@
 
 <h1 th:text="${blog.title}">제목입니다.</h1>
 <p th:text="${blog.content}">내용이 들어갈 부분입니다.</p>
+<a th:href="@{${blog.filepath}}">다운받기</a>
 <a th:href="@{/blog/modify/{id}(id = ${blog.id})}">수정</a>
 </body>
 </html>

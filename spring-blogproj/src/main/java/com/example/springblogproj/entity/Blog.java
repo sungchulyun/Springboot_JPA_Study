@@ -19,5 +19,9 @@ public class Blog {
 
     private String content;
 
+    private String filename;
+
+    private String filepath;
+
 
 }

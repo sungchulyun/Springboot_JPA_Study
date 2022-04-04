@@ -1,8 +1,13 @@
 package org.zerok;
 
+import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
+import org.springframework.data.domain.Sort;
 import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 import org.zerok.domain.FreeBoard;
@@ -59,4 +64,19 @@ public class FreeBoardTests {
             boardRepo.save(board);
         });
     }
+
+    @Test
+    public void insertReply1Way(){
+
+        FreeBoard board = new FreeBoard();
+        board.setBno(199L);
+
+        FreeBoardReply reply = new FreeBoardReply();
+        reply.setReply("REPLY.................");
+        reply.setReplyer("replyer00");
+        reply.setBoard(board);
+
+        replyRepo.save(reply);
+    }
+
 }

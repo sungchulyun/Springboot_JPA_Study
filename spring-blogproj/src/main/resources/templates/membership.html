@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <link th:href="@{/css/bootstrap.min.css}"
+          href="../css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .container {
+            max-width: 560px;
+        }
+        .field-error {
+            border-color: #dc3545;
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+
+로그인입니다.
+
+<form th:action="/blog/loginPro" method="get">
+    ID :<input type="text" name="userid"><br>
+    PASSWORD :<input type="text" name="userpasswd"><br>
+    <button type="submit">제출</button>
+</form>
+</body>
+</html>
