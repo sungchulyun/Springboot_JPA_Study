@@ -1,13 +1,18 @@
 package org.zerock.controller;
 
-import lombok.extern.java.Log;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.zerock.entity.Board;
+import org.zerock.service.BoardService;
 
 @Controller
-public class WebBoardController {
+public class BoardController {
+
+    @Autowired
+    BoardService boardservice;
 
     @GetMapping("/index")
     public String welcome(){
@@ -22,9 +27,17 @@ public class WebBoardController {
     }
 
     @PostMapping("/writepro")
-    public String writePro(){
+    public String writePro(Board board){
 
+        boardservice.boardwrite(board);
 
         return "redirect:/write";
+    }
+
+    @GetMapping("/list")
+    public String list(Model model, Board board){
+
+
+        return "list";
     }
 }
