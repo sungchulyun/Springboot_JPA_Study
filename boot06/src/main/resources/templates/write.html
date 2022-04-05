@@ -1,0 +1,13 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>게시판 작성 페이지</title>
+</head>
+<body>
+<form th:action="writepro" method="post">
+    <input type="text" id="title" name="title" placeholder="제목을 입력하세요">
+    <input type="text" id="content" name="content" placeholder="내용을 입력하세요">
+    <input type="submit" id="submiBtn" value="작성하기">
+</form>
+</body>
+</html>
