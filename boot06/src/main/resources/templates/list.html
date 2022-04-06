@@ -1,15 +1,79 @@
-<html lang="ko" xmlns:th="http://www.thymeleaf.org" layout:decorator="layout"
-      xmlns:layout="http://www.w3.org/1999/xhtml">
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>게시판 글 리스트</title>
+  <title>Title</title>
+
+  <style>
+        .main {
+            width: 700px;
+            height: 700px;
+            margin: auto;
+            margin-top: 100px;
+        }
+
+        table {
+            text-align: center;
+        }
+
+        .register {
+            text-align: center;
+            display: inline-block;
+            border: 1px solid;
+            width: 80px;
+            height: 30px;
+            background-color: mistyrose;
+            text-decoration: none;
+            line-height: 30px;
+        }
+
+        ul {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        ul li {
+            list-style-type: none;
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+    </style>
 </head>
 <body>
-<table>
-  <tr th:each="board : ${board}">
-    <td th:text="${board.title}"> </td>
-    <td th:text="${prod.content}"></td>
-  </tr>
-</table>
+<div class="main">
+  <a href="/board/register" class="register">글 쓰기</a>
+  <table>
+    <colgroup>
+      <col width="50">
+      <col width="300">
+      <col width="150">
+      <col width="200">
+    </colgroup>
+    <thead>
+    <tr>
+      <th>번호</th>
+      <th>제목</th>
+      <th>작성자</th>
+      <th>등록일</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="board : ${board}">
+      <td th:text="${board.bno}"></td>
+      <td><a th:href="@{/detail/{bno}(bno=${board.bno})}" th:text="${board.title}"></a></td>
+
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="pagination">
+    <ul>
+      <li th:each="page : ${#numbers.sequence(0, totalPage - 1)}">
+        <a th:href="@{/board/list(page=${pageStat.index})}" th:text="${pageStat.index + 1}"></a>
+      </li>
+    </ul>
+  </div>
+</div>
 </body>
 </html>
