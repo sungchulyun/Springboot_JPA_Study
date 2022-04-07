@@ -15,4 +15,5 @@ public interface BoardRepository extends CrudRepository<Board, Long> {
 
     Page<Board> findAll(Pageable page);
 
+    List<Board> findByTitleContaining(String keyword);
 }

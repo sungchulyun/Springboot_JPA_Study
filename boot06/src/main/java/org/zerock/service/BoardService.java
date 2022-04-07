@@ -32,4 +32,9 @@ public class BoardService {
         return boardrepository.findById(bno).get();
     }
 
+    public List<Board> search(String keyword){
+
+        return boardrepository.findByTitleContaining(keyword);
+    }
+
     }

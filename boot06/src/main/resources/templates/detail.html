@@ -23,13 +23,19 @@
 </head>
 <body>
 <table>
+  <thead>
+  <caption>글 읽기</caption>
+  </thead>
   <tbody>
-   <tr th:each="board : ${board}">
-     <td th:text="${board.title}"></td>
-     <td th:text="${board.content}"></td>
-     <td th:text="${board.regdate}"></td>
-     <td th:text="${board.updatedate}"></td>
-   </tr>
+  <tr>
+    <th>제목</th>
+    <td th:text="${board.title}"></td>
+  </tr>
+  <tbody>
+  <tr>
+    <th>내용</th>
+    <td th:text="${board.content}"></td>
+  </tr>
   </tbody>
 </table>
 </body>

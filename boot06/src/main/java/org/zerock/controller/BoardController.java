@@ -2,14 +2,14 @@ package org.zerock.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.zerock.entity.Board;
 import org.zerock.service.BoardService;
+
+import java.util.List;
 
 @Controller
 public class BoardController {
@@ -50,13 +50,23 @@ public class BoardController {
         return "list";
     }
 
-    @PostMapping ("/detail/{bno}")
-    public String detail(Model model, Board board, @PathVariable Long bno){
+    @RequestMapping("/detail/{bno}")
+    public String detail(Model model,  @PathVariable Long bno){
 
-        Board board1 = boardservice.find(bno);
+        Board board = boardservice.find(bno);
 
-        model.addAttribute("board", board1);
+        model.addAttribute("board", board);
 
         return "/detail";
+    }
+
+    @RequestMapping("/list/{keyword}")
+    public String listSearch(@PathVariable String keyword, Model model){
+
+        List<Board> board = boardservice.search(keyword);
+
+        model.addAttribute("board", board);
+
+        return "";
     }
 }
