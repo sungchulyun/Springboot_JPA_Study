@@ -22,19 +22,26 @@ public class BoardService {
         boardrepository.save(board);
     }
 
-    public Page<Board> list(int page){
 
-        return boardrepository.findAll((PageRequest.of(page,10, Sort.Direction.DESC, "bno")));
+    public Page<Board> list(Pageable pageable){
+
+        return boardrepository.findAll(pageable);
     }
+
 
     public Board find(Long bno){
 
         return boardrepository.findById(bno).get();
     }
 
-    public List<Board> search(String keyword){
+    public Page<Board> search(String keyword, Pageable pageable){
 
-        return boardrepository.findByTitleContaining(keyword);
+        return boardrepository.findByTitleContaining(keyword,pageable);
+    }
+
+    public void delete(Long bno){
+
+        boardrepository.deleteById(bno);
     }
 
     }

@@ -42,7 +42,7 @@
 </head>
 <body>
 <div class="main">
-  <a href="/board/register" class="register">글 쓰기</a>
+  <a href="/write" class="register">글 쓰기</a>
   <table>
     <colgroup>
       <col width="50">
@@ -54,14 +54,13 @@
     <tr>
       <th>번호</th>
       <th>제목</th>
-      <th>작성자</th>
-      <th>등록일</th>
-    </tr>
+      <th>냐용</th>
     </thead>
     <tbody>
-    <tr th:each="board : ${board}">
-      <td th:text="${board.bno}"></td>
-      <td><a th:href="@{/detail/{bno}(bno=${board.bno})}" th:text="${board.title}"></a></td>
+    <tr th:each="lists : ${lists}">
+      <td th:text="${lists.bno}"></td>
+      <td><a th:href="@{/detail?bno={bno}(bno=${lists.bno})}" th:text="${lists.title}"></a></td>
+      <td><a th:href="@{/detail?bno={bno}(bno=${lists.bno})}" th:text="${lists.content}"></a></td>
 
     </tr>
     </tbody>
@@ -69,18 +68,19 @@
 
   <div class="pagination">
     <ul>
-      <li th:each="page : ${#numbers.sequence(0, totalPage - 1)}">
-        <a th:href="@{/board/list(page=${pageStat.index})}" th:text="${pageStat.index + 1}"></a>
+      <li th:each="page : ${#numbers.sequence(0, EndPage - 1)}">
+        <a th:href="@{/list(page=${nowPage})}" th:text="${nowPage + 1}"></a>
       </li>
     </ul>
   </div>
+  <th:block th:each="page : ${#numbers.sequence(StartPage, EndPage)}">
+    <a th:if="${page != nowPage}" th:href="@{/list(page = ${page - 1}, keyword = ${param.keyword})}" th:text="${page}"></a>
+    <strong th:if="${page == nowPage}" th:text="${page}" style="color : red "></strong>
+  </th:block>
+  <form th:action="@{/list}" method="get">
+    <input type="text" name="keyword">
+    <button type="submit">검색</button>
+  </form>
 </div>
-<form action="/board/search" method="POST">
-  <div>
-    <input name="keyword" type="text" placeholder="검색어를 입력해주세요">
-  </div>
-
-  <button>검색하기</button>
-</form>
 </body>
 </html>

@@ -2,6 +2,9 @@ package org.zerock.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -38,35 +41,52 @@ public class BoardController {
     }
 
     @GetMapping("/list")
-    public String list(Model model, @RequestParam(required = false, defaultValue = "0", value = "page") int page){
+    public String list(Model model, @PageableDefault(page = 0, size = 10, sort = "bno", direction = Sort.Direction.DESC)
+                       Pageable pageable, String keyword){
 
-        Page<Board> listPage = boardservice.list(page);
+        Page<Board> lists = null;
 
-        int totalPage = listPage.getTotalPages();
+        if(keyword == null)
+            lists = boardservice.list(pageable);
 
-        model.addAttribute("board", listPage.getContent());
-        model.addAttribute("totalPage", totalPage);
+        else
+            lists = boardservice.search(keyword, pageable);
+
+       int nowPage = lists.getPageable().getPageNumber();
+       int StartPage = Math.max(nowPage -4, 1);
+       int EndPage = Math.min(nowPage+5,lists.getTotalPages());
+
+       model.addAttribute("lists", lists);
+       model.addAttribute("nowPage", nowPage);
+       model.addAttribute("StartPage", StartPage);
+       model.addAttribute("EndPage", EndPage);
+
 
         return "list";
     }
 
-    @RequestMapping("/detail/{bno}")
-    public String detail(Model model,  @PathVariable Long bno){
+   @GetMapping("/detail")
+    public String detail(Model model, Long bno){
 
-        Board board = boardservice.find(bno);
-
-        model.addAttribute("board", board);
+        model.addAttribute("board", boardservice.find(bno));
 
         return "/detail";
     }
 
-    @RequestMapping("/list/{keyword}")
-    public String listSearch(@PathVariable String keyword, Model model){
+    @PostMapping("/update")
+    public String update(Board board){
 
-        List<Board> board = boardservice.search(keyword);
+        boardservice.boardwrite(board);
 
-        model.addAttribute("board", board);
-
-        return "";
+        return "/update";
     }
+
+    @GetMapping("/delete/{bno}")
+    public String Delete(@PathVariable("bno") Long bno){
+
+        boardservice.delete(bno);
+
+        return "redirect:/list";
+    }
+
 }
