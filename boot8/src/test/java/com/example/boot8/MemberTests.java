@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Commit;
 
 import java.util.Arrays;
+import java.util.Optional;
 
 @SpringBootTest
 @Log
@@ -43,5 +44,14 @@ public class MemberTests {
 
             repo.save(member);
         }
+    }
+
+    @Test
+    public void testRead(){
+
+        Optional<Member> result = repo.findById("user85");
+
+        result.ifPresent(member -> log.info("member" + member));
+
     }
 }
