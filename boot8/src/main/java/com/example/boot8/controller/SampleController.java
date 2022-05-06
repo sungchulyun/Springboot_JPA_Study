@@ -17,13 +17,13 @@ public class SampleController {
         return "index";
     }
 
-    @GetMapping("/guest")
+    @RequestMapping("/guest")
     public void forGuest(){
 
         log.info("Guest");
     }
 
-    @GetMapping("/manager")
+    @RequestMapping("/manager")
     public void forManager(){
 
         log.info("manager");
