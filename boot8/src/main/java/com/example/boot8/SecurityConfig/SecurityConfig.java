@@ -54,6 +54,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     public PasswordEncoder passwordEncoder(){
 
         return new PasswordEncoder() {
+
             @Override
             public String encode(CharSequence rawPassword) {
                 return rawPassword.toString();
