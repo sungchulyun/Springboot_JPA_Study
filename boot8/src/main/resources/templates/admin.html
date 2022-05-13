@@ -1,10 +1,29 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta http-equiv="Content-Type" content="text/html" charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
-<h1>Welcome!</h1>
+<h1>admin for admin</h1>
+<hr />
+<h3 sec:authentication="name">Spring security username</h3>
+<p sec:authorize-url="/admin/aaa">
+    <a href="/admin/aaa">ADMIN AAA</a>
+</p>
+<div th:with="member=${#authentication.principal.member}">
+    <p>[[${member.uid}]]</p>
+    <p>[[${member.upw}]]</p>
+    <p>[[${member.uname}]]</p>
+</div>
+
+<p sec:authorize-url="/manager/aaa">
+    <a href="/manager/aaa">MANAGER AAA</a>
+</p>
+
+<h1 sec:authorize="hasRole('ROLE_ADMIN')">This content is only for administrators.</h1>
+
+<hr />
 </body>
 </html>
